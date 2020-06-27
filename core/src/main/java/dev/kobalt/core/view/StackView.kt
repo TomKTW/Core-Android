@@ -57,12 +57,14 @@ open class StackView(orientation: Orientation) : NativeView() {
             view.nativeView.setPadding(padding, padding, padding, padding)
             nativeView.addView(view.nativeView, it)
             children.add(view)
+            view.onAttach?.invoke()
         }
     }
 
     fun remove(view: NativeView) {
         children.remove(view)
         nativeView.removeView(view.nativeView)
+        view.onDetach?.invoke()
     }
 
     init {

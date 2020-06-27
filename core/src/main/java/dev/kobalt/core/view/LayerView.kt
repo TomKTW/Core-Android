@@ -26,10 +26,12 @@ open class LayerView : NativeView() {
             it.setMargins(margin, margin, margin, margin)
             view.nativeView.setPadding(padding, padding, padding, padding)
             nativeView.addView(view.nativeView, it)
+            view.onAttach?.invoke()
         }
     }
 
     fun remove(view: NativeView) {
+        view.onDetach?.invoke()
         nativeView.removeView(view.nativeView)
     }
 

@@ -1,7 +1,8 @@
+@file:Suppress("MemberVisibilityCanBePrivate")
+
 package dev.kobalt.core.application
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Drawable
@@ -30,8 +31,8 @@ abstract class NativeView {
 
     protected val strings: Strings get() = Strings
 
-    private val nativeActivity: Activity?
-        get() = nativeView.rootView.context as? Activity
+    protected val nativeActivity: NativeActivity?
+        get() = nativeView.rootView.context as? NativeActivity
 
     @Suppress("DEPRECATION")
     var background: Drawable?
@@ -63,7 +64,6 @@ abstract class NativeView {
             it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
         application.native.startActivity(intent)
-
     }
 
     open fun onBackPressed() {
@@ -73,6 +73,10 @@ abstract class NativeView {
     protected fun finish() {
         nativeActivity?.finish()
     }
+
+    var onAttach: (() -> Unit)? = null
+
+    var onDetach: (() -> Unit)? = null
 
     private var _onTap: (() -> Unit)? = null
 
